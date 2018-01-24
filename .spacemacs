@@ -66,6 +66,11 @@ values."
    '(
      vue-mode
      multiple-cursors
+     lsp-mode
+     lsp-ui
+     company-lsp
+     lsp-rust
+     cquery
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -312,6 +317,10 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (setq cquery-executable "/home/mujin/.emacs.d/cquery/build/release/bin/cquery")
+  (add-to-list 'load-path "/home/mujin/.emacs.d/elpa/emacs-cquery")
+  (load-library 'cquery)
+  
   )
 
 (defun dotspacemacs/user-config ()
@@ -350,6 +359,9 @@ you should place your code here."
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
   ;; setup global and gtags
+
+
+
   )
 
 
@@ -364,7 +376,7 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data helm-bind-key ggtags helm-gtags edit-indirect ssass-mode vue-html-mode vue-mode powerline spinner parent-mode pkg-info epl flyspell-correct-helm flx iedit anzu undo-tree highlight diminish bind-map auto-dictionary packed s popup jedi async dash csv-mode bind-key smartparens evil goto-chg flyspell-correct helm helm-core avy projectile ghub let-alist hydra f tide typescript-mode flycheck qml-mode ag erlang flymake-python-pyflakes git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl unfill smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit-popup git-commit with-editor company-tern tern company-statistics company-anaconda company auto-yasnippet ac-ispell auto-complete magit web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (lsp-python company-lsp lsp-ui lsp-rust cquery lsp-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data helm-bind-key ggtags helm-gtags edit-indirect ssass-mode vue-html-mode vue-mode powerline spinner parent-mode pkg-info epl flyspell-correct-helm flx iedit anzu undo-tree highlight diminish bind-map auto-dictionary packed s popup jedi async dash csv-mode bind-key smartparens evil goto-chg flyspell-correct helm helm-core avy projectile ghub let-alist hydra f tide typescript-mode flycheck qml-mode ag erlang flymake-python-pyflakes git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl unfill smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit-popup git-commit with-editor company-tern tern company-statistics company-anaconda company auto-yasnippet ac-ispell auto-complete magit web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
