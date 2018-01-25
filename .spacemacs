@@ -66,6 +66,11 @@ values."
    '(
      vue-mode
      multiple-cursors
+     lsp-mode
+     lsp-ui
+     company-lsp
+     lsp-rust
+     cquery
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -312,6 +317,10 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (setq cquery-executable "/home/mujin/.emacs.d/cquery/build/release/bin/cquery")
+  (add-to-list 'load-path "/home/mujin/.emacs.d/elpa/emacs-cquery")
+  (load-library 'cquery)
+  
   )
 
 (defun dotspacemacs/user-config ()
@@ -350,6 +359,9 @@ you should place your code here."
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
   ;; setup global and gtags
+
+
+
   )
 
 
