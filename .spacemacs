@@ -71,6 +71,7 @@ values."
      company-lsp
      lsp-rust
      cquery
+     qml-mode
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -340,8 +341,8 @@ you should place your code here."
   (setq python-skeleton-autoinsert t)
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-
-  ;; font setting
+  (add-hook 'anaconda-mode-hook
+            (lambda () (local-set-key (kbd "M-d") 'anaconda-mode-find-definitions)))
 
   ;; vue mode setting
   (require 'vue-mode)
