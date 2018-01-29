@@ -346,7 +346,7 @@ you should place your code here."
 
   ;; vue mode setting
   (require 'vue-mode)
-  (add-to-list 'company-backends 'company-tern)
+  ;; (add-to-list 'company-backends 'company-tern)
   (add-hook 'js-mode-hook #'tern-mode)
   (add-to-list 'vue-mode-hook #'tern-mode smartparens-mode)
 
@@ -356,10 +356,11 @@ you should place your code here."
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
-  ;; setup global and gtags
+  ;; setup c++ (cquery global etc.)
   (setq cquery-executable "/home/mujin/.emacs.d/cquery/build/release/bin/cquery")
   (add-to-list 'load-path "/home/mujin/.emacs.d/elpa/emacs-cquery")
   (load-library 'cquery)
+
   )
 
 
