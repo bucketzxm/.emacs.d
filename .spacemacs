@@ -345,7 +345,7 @@ you should place your code here."
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
   (add-hook 'anaconda-mode-hook
-            (lambda () (local-set-key (kbd "M-d") 'anaconda-mode-find-definitions)))
+            (lambda () (local-set-key (kbd "M-RET-g-d") 'anaconda-mode-find-definitions)))
 
   ;; vue mode setting
   (require 'vue-mode)
@@ -359,14 +359,6 @@ you should place your code here."
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
-  ;; setup c++ (cquery global etc.)
-  (setq cquery-executable "/home/mujin/.emacs.d/cquery/build/release/bin/cquery")
-  (add-to-list 'load-path "/home/mujin/.emacs.d/elpa/emacs-cquery")
-  (load-library 'cquery)
-
-  ;; Chinese Input
-  (setq-default dotspacemacs-configuration-layers '((chinese :variables
-                                                             chinese-enable-fcitx t)))
   )
 
 
