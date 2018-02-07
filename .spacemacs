@@ -356,6 +356,12 @@ you should place your code here."
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
+  ;; change to panda-theme
+  (use-package panda-theme
+    :ensure t
+    :config
+    (load-theme 'panda t))
+  (set-default dotspacemacs-themes '())
   )
 
 
