@@ -383,9 +383,9 @@ you should place your code here."
     :config
     (load-theme 'panda t))
 
-
-
-
+  (setq key-chord-two-keys-delay 0.15
+        key-chord-one-key-delay 0.2)
+  
   ;; buffer-flip config
   (use-package buffer-flip
     :ensure t
@@ -395,7 +395,16 @@ you should place your code here."
                 ( "*" . buffer-flip-backward)
                 ( "C-g" . buffer-flip-abort)))
 
-  )
+
+  (key-chord-define-global " 0" 'delete-window)
+  (key-chord-define-global " 1" 'delete-other-windows)
+  (key-chord-define-global " 2" 'split-window-below)
+  (key-chord-define-global " 3" 'split-window-right)
+  (key-chord-define-global " =" 'winstack-push)
+  (key-chord-define-global " -" 'winstack-pop)
+
+  (setq cquery-executable "/home/mujin/Project/cquery/build/release/bin")
+)
 
 
 
