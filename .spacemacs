@@ -385,7 +385,7 @@ you should place your code here."
 
   (setq key-chord-two-keys-delay 0.15
         key-chord-one-key-delay 0.2)
-  
+
   ;; buffer-flip config
   (use-package buffer-flip
     :ensure t
@@ -404,6 +404,10 @@ you should place your code here."
   (key-chord-define-global " -" 'winstack-pop)
 
   (setq cquery-executable "/home/mujin/Project/cquery/build/release/bin")
+
+  
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+  
 )
 
 
