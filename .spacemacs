@@ -78,6 +78,8 @@ values."
      panda-theme
      buffer-flip
      bind-chord
+     key-chord
+     use-package-chords
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -157,7 +159,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 15
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -336,7 +338,9 @@ you should place your code here."
 
 
   (when (>= emacs-major-version 24)
-    (require 'package)
+    (eval-when-compile
+      (require 'package))
+
     (add-to-list
      'package-archives
      '("melpa" . "http://melpa.milkbox.net/packages/")
@@ -360,11 +364,6 @@ you should place your code here."
             (lambda () (local-set-key (kbd "M-RET-g-d") 'anaconda-mode-find-definitions)))
 
 
-  ;; use-package-chords
-  (use-package use-package-chords
-    :ensure t
-    :config (key-chord-mode 1))
-
   ;; vue mode setting
   (require 'vue-mode)
   ;; (add-to-list 'company-backends 'company-tern)
@@ -383,9 +382,19 @@ you should place your code here."
     :config
     (load-theme 'panda t))
 
-  (setq key-chord-two-keys-delay 0.15
-        key-chord-one-key-delay 0.2)
+  (setq key-chord-two-keys-delay 0.4
+        key-chord-one-key-delay 0.5)
 
+  (key-chord-define-global " 0" 'delete-window)
+  (key-chord-define-global " 1" 'delete-other-windows)
+  (key-chord-define-global " 2" 'split-window-below)
+  (key-chord-define-global " 3" 'split-window-right)
+  (key-chord-define-global " =" 'winstack-push)
+  (key-chord-define-global " -" 'winstack-pop)
+  ;; use-package-chords
+  ;; (key-chord-mode t)
+  (use-package use-package-chords
+    :config (key-chord-mode 1))
   ;; buffer-flip config
   (use-package buffer-flip
     :ensure t
@@ -395,19 +404,8 @@ you should place your code here."
                 ( "*" . buffer-flip-backward)
                 ( "C-g" . buffer-flip-abort)))
 
-
-  (key-chord-define-global " 0" 'delete-window)
-  (key-chord-define-global " 1" 'delete-other-windows)
-  (key-chord-define-global " 2" 'split-window-below)
-  (key-chord-define-global " 3" 'split-window-right)
-  (key-chord-define-global " =" 'winstack-push)
-  (key-chord-define-global " -" 'winstack-pop)
-
-  (setq cquery-executable "/home/mujin/Project/cquery/build/release/bin")
-
   
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-  
 )
 
 
