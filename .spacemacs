@@ -404,8 +404,13 @@ you should place your code here."
                 ( "*" . buffer-flip-backward)
                 ( "C-g" . buffer-flip-abort)))
 
-  
+  ;; set .h header file open in c++ mode
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+
+  ;; set ot for opening neo tree
+  (spacemacs/set-leader-keys "ot" 'neotree-toggle)
+
 )
 
 
