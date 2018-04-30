@@ -358,10 +358,10 @@ you should place your code here."
   (setq python-shell-interpreter "python3")
   (setq python-shell-interpreter-args "-m IPython --simple-prompt -i")
   (setq python-skeleton-autoinsert t)
-  (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-  (add-hook 'anaconda-mode-hook
-            (lambda () (local-set-key (kbd "M-RET-g-d") 'anaconda-mode-find-definitions)))
+  (add-hook 'python-mode-hook 'anaconda-mode)
+  ;; (add-hook 'anaconda-mode-hook
+  ;;           (lambda () (local-set-key (kbd "M") 'anaconda-mode-find-definitions)))
 
 
   ;; vue mode setting
@@ -411,6 +411,8 @@ you should place your code here."
   ;; set ot for opening neo tree
   (spacemacs/set-leader-keys "ot" 'neotree-toggle)
 
+  ;; toggle fold and close fold
+  (spacemacs/set-leader-keys "za" 'evil-toggle-fold)
 )
 
 
