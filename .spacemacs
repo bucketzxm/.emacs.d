@@ -414,6 +414,21 @@ you should place your code here."
 
   ;; toggle fold and close fold
   (spacemacs/set-leader-keys "za" 'evil-toggle-fold)
+
+
+  ;; use which-function-mode to show which function/class i am inside.
+  (which-function-mode)
+  ;; when it cannot determinted, show n/a instead of ???
+  (setq which-func-unknown "n/a")
+  ;; show the position on top
+  (setq-default header-line-format
+                '((which-func-mode ("" which-func-format " "))))
+  (setq mode-line-misc-info
+        ;; We remove Which Function Mode from the mode line, because it's mostly
+        ;; invisible here anyway.
+        (assq-delete-all 'which-func-mode mode-line-misc-info))
+
+
 )
 
 
