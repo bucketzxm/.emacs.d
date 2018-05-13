@@ -79,7 +79,7 @@ values."
      multiple-cursors
      panda-theme
      qml-mode
-     sql-mode
+     sql
      use-package-chords
      vue-mode
      )
