@@ -68,19 +68,20 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-     vue-mode
-     multiple-cursors
+     bind-chord
+     buffer-flip
+     company-lsp
+     cquery
+     key-chord
      lsp-mode
      lsp-ui
-     company-lsp
      lsp-rust
-     cquery
-     qml-mode
+     multiple-cursors
      panda-theme
-     buffer-flip
-     bind-chord
-     key-chord
+     qml-mode
+     sql-mode
      use-package-chords
+     vue-mode
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
