@@ -431,8 +431,14 @@ you should place your code here."
         (assq-delete-all 'which-func-mode mode-line-misc-info))
 
 
-)
+  ;; imenu-list
+  (use-package imenu-list
+    :ensure t
+    :bind ("C-." . imenu-list-minor-mode)
+    :config
+    (setq imenu-list-focus-after-activation t))
 
+  )
 
 
 ;; Do not write anything past this comment. This is where Emacs will
