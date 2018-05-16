@@ -73,6 +73,7 @@ values."
      buffer-flip
      company-lsp
      cquery
+     imenu-list
      key-chord
      lsp-mode
      lsp-ui
@@ -437,6 +438,8 @@ you should place your code here."
     :bind ("C-." . imenu-list-minor-mode)
     :config
     (setq imenu-list-focus-after-activation t))
+
+  (global-set-key (kbd "C-'") 'imenu-list-smart-toggle)
 
   )
 
