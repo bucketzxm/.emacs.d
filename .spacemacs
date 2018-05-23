@@ -80,6 +80,7 @@ values."
      lsp-rust
      multiple-cursors
      panda-theme
+     srcery-theme
      qml-mode
      sql
      use-package-chords
@@ -156,14 +157,16 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(srcery
+                         spacemacs-dark
+                         spacemacs-light
+                         )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 16
+   dotspacemacs-default-font '("Iosevka"
+                               :size 18
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -381,11 +384,13 @@ you should place your code here."
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
   ;; change to panda-theme
-  (use-package panda-theme
-    :ensure t
-    :config
-    (load-theme 'panda t))
+  ;; (use-package panda-theme
+  ;;   :ensure t
+  ;;   :config
+  ;;   (load-theme 'panda t))
 
+
+  
   (setq key-chord-two-keys-delay 0.4
         key-chord-one-key-delay 0.5)
 
