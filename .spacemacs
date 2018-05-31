@@ -360,6 +360,71 @@ you should place your code here."
    '((python . t)))
 
 
+
+  ;; c/c++ mode
+
+  ;; cquery start ;)-----------------------------------------------------------
+  ;; setup cquery, configuration https://github.com/cquery-project/emacs-cquery/tree/7f48de485c5f4ca0d55b93307763889ce2d7c5c4
+  (require 'cquery)
+  ;; cquery setup and configuration refer to https://github.com/cquery-project/cquery/wiki/Emacs
+  (setq cquery-executable "~/.oh-my-unix/3rdparty/cquery/build/release/bin/cquery")
+  ;; ;; Arch Linux aur/cquery-git aur/cquery
+  ;; (setq cquery-executable "/usr/bin/cquery")
+
+  ;; ;; Log file
+  (setq cquery-extra-args '("--log-file=/tmp/cq.log"))
+  ;; ;; Cache directory, both relative and absolute paths are supported
+  (setq cquery-cache-dir ".cquery_cached_index")
+  ;; ;; Initialization options
+  ;; (setq cquery-extra-init-params '(:cacheFormat "msgpack"))
+  (setq cquery-extra-init-params '(:index (:comments 2) :cacheFormat "msgpack" :completion (:detailedLabel t)))
+
+  ;; If you do not mind files in subprojects are treated as part of the whole project in projectile:
+  (with-eval-after-load 'projectile
+    (setq projectile-project-root-files-top-down-recurring
+          (append '("compile_commands.json"
+                    ".cquery")
+                  projectile-project-root-files-top-down-recurring)))
+
+  ;; To turn on cquery for all C/C++ modes:
+  (defun cquery//enable ()
+    (condition-case nil
+        (lsp-cquery-enable)
+      (user-error nil)))
+
+  (use-package cquery
+    :commands lsp-cquery-enable
+    :init (add-hook 'c-mode-common-hook #'cquery//enable))
+  ;; Also see lsp-project-whitelist lsp-project-blacklist cquery-root-matchers
+
+
+  ;; completion
+  (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
+
+  ;; enable semantic highlighting
+  (setq cquery-sem-highlight-method 'font-lock)
+  ;; alternatively, (setq cquery-sem-highlight-method 'overlay)
+
+  ;; For rainbow semantic highlighting
+  (cquery-use-default-rainbow-sem-highlight)
+
+  
+  
+  ;; cquery end ;)---------------------------------------------------------
+
+  ;; lsp-ui  https://github.com/emacs-lsp/lsp-ui ----------------------------
+  (require 'lsp-ui)
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+  (add-hook 'XXXXX-mode-hook 'flycheck-mode)
+  (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+  (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+
+  (lsp-ui-peek-jump-backward)
+  (lsp-ui-peek-jump-forward)
+
+
+  ;; lsp-ui end ----------------------------------------
+  ;; c++ mode end
   ;; python settings
   (setenv "PYTHONPATH" (shell-command-to-string "$SHELL --login -c 'echo -n $PYTHONPATH'"))
   (setq python-shell-interpreter "python3")
@@ -445,6 +510,31 @@ you should place your code here."
     (setq imenu-list-focus-after-activation t))
 
   (global-set-key (kbd "C-'") 'imenu-list-smart-toggle)
+
+
+  ;; rust toggle-mut
+  (defun toggle-mut ()
+    "Toggles the mutability of the variable defined on the current line"
+    (interactive)
+    (save-excursion
+      (back-to-indentation)
+      (forward-word)
+      (if (string= " mut" (buffer-substring (point) (+ (point) 4)))
+          (delete-region (point) (+ (point) 4))
+        (insert " mut"))))
+
+  (add-hook 'rust-mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-M-m") 'toggle-mut)))
+
+
+  ;; define function to shutdown emacs server
+  (defun server-shutdown ()
+    "Save buffers, Quit, and Shutdown (kill) server"
+    (interactive)
+    (save-some-buffers)
+    (kill-emacs)
+    )
 
   )
 
