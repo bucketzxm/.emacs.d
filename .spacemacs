@@ -81,6 +81,7 @@ values."
      multiple-cursors
      panda-theme
      srcery-theme
+     doom-themes
      qml-mode
      sql
      use-package-chords
@@ -157,7 +158,7 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(srcery
+   dotspacemacs-themes '(doom-peacock
                          spacemacs-dark
                          spacemacs-light
                          )
@@ -425,6 +426,44 @@ you should place your code here."
 
   ;; lsp-ui end ----------------------------------------
   ;; c++ mode end
+
+  ;; setup rust
+
+  (with-eval-after-load 'lsp-mode
+    (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
+    (require 'lsp-rust))
+
+  (add-hook 'rust-mode-hook #'lsp-rust-enable)
+  ;; Setup default windows size
+  ;; (if (display-graphic-p)
+  ;;     (progn
+  ;;       (setq initial-frame-alist
+  ;;             '(
+  ;;               (tool-bar-lines . 0)
+  ;;               (width . 1000) ; chars
+  ;;               (height . 600) ;lines)
+  ;;               ;;
+  ;;               ))
+  ;;       (setq default-frame-alist
+  ;;             '(
+  ;;               (tool-bar-lines . 0)
+  ;;               (width . 1000)
+  ;;               (height . 600)
+  ;;               ;;
+  ;;               )))
+
+  ;;   (progn
+  ;;     (setq initial-frame-alist
+  ;;           '(
+  ;;             (tool-bar-lines . 0)))
+  ;;     (setq default-frame-alist
+  ;;           '(
+  ;;             (tool-bar-lines .0)))
+
+  ;;     )
+  ;;   )
+
+
   ;; python settings
   (setenv "PYTHONPATH" (shell-command-to-string "$SHELL --login -c 'echo -n $PYTHONPATH'"))
   (setq python-shell-interpreter "python3")
@@ -536,6 +575,29 @@ you should place your code here."
     (kill-emacs)
     )
 
+  ;; emacs-ac-ispell
+  (eval-after-load "auto-complete"
+    '(progn
+       (ac-ispell-setup)))
+
+  (add-hook 'git-commit-mode-hook 'ac-ispell-ac-setup)
+  (add-hook 'mail-mode-hook 'ac-ispell-ac-setup)
+
+  (require 'doom-themes)
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
+  ;; may have their own settings.
+  (load-theme 'doom-peacock t)
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
   )
 
 
