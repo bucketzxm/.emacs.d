@@ -33,7 +33,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -47,6 +47,9 @@ This function should only modify configuration layer settings."
      ;; markdown
      multiple-cursors
      neotree
+     git
+     csharp
+     imenu-list
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -189,6 +192,7 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
+                         spacemacs-dark
                          spacemacs-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -443,6 +447,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (setq-default git-magit-status-fullscreen)
   )
 
 (defun dotspacemacs/user-load ()
@@ -458,11 +463,36 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (add-hook 'text-mode-hook 'tabbar-mode)
+
   (global-set-key [M-left] 'tabbar-backward-tab)
   (global-set-key [M-right] 'tabbar-forward-tab)
+  (add-hook 'text-mode-hook 'tabbar-mode)
+  
+  ;; use which-function-mode to show which function/class i am inside.
+  (which-function-mode)
+  ;; when it cannot determinted, show n/a instead of ???
+  (setq which-func-unknown "n/a")
+  ;; show the position on top
+  (setq-default header-line-format
+                '((which-func-mode ("" which-func-format " "))))
+  (setq mode-line-misc-info
+        ;; We remove Which Function Mode from the mode line, because it's mostly
+        ;; invisible here anyway.
+        (assq-delete-all 'which-func-mode mode-line-misc-info))
+
+
+  ;; imenu-list
+  (use-package imenu-list
+    :ensure t
+    :bind ("C-." . imenu-list-minor-mode)
+    :config
+    (setq imenu-list-focus-after-activation t))
+
+  (global-set-key (kbd "C-'") 'imenu-list-smart-toggle)
 
   )
+
+
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -478,7 +508,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (all-the-icons memoize yasnippet-snippets which-key wgrep use-package smex pcre2el overseer neotree nameless macrostep ivy-yasnippet ivy-xref ivy-hydra helm-make fuzzy flx evil-mc elisp-slime-nav dotenv-mode diminish counsel company-statistics bind-map auto-yasnippet auto-compile ac-ispell))))
+    (imenu-list yasnippet-snippets yapfify which-key wgrep use-package smex smeargle pyvenv pytest pyenv-mode py-isort pippel pipenv pip-requirements pcre2el overseer omnisharp neotree nameless magit-svn magit-gitflow macrostep live-py-mode ivy-yasnippet ivy-xref ivy-hydra importmagic helm-make gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flx evil-mc evil-magit elisp-slime-nav dotenv-mode diminish cython-mode counsel company-statistics company-anaconda bind-map auto-yasnippet auto-compile ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
