@@ -33,7 +33,9 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(python
+   '(markdown
+     javascript
+     python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -50,6 +52,7 @@ This function should only modify configuration layer settings."
      git
      csharp
      imenu-list
+     json
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -354,7 +357,7 @@ It should only modify the values of Spacemacs settings."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
 
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
@@ -463,22 +466,24 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;; ask .h file to use c++ mode
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
   (global-set-key [M-left] 'tabbar-backward-tab)
   (global-set-key [M-right] 'tabbar-forward-tab)
   (add-hook 'text-mode-hook 'tabbar-mode)
-  
-  ;; use which-function-mode to show which function/class i am inside.
-  (which-function-mode)
-  ;; when it cannot determinted, show n/a instead of ???
-  (setq which-func-unknown "n/a")
-  ;; show the position on top
-  (setq-default header-line-format
-                '((which-func-mode ("" which-func-format " "))))
-  (setq mode-line-misc-info
-        ;; We remove Which Function Mode from the mode line, because it's mostly
-        ;; invisible here anyway.
-        (assq-delete-all 'which-func-mode mode-line-misc-info))
+
+  ;; ;; use which-function-mode to show which function/class i am inside.
+  ;; (which-function-mode)
+  ;; ;; when it cannot determinted, show n/a instead of ???
+  ;; (setq which-func-unknown "n/a")
+  ;; ;; show the position on top
+  ;; (setq-default header-line-format
+  ;;               '((which-func-mode ("" which-func-format " "))))
+  ;; (setq mode-line-misc-info
+  ;;       ;; We remove Which Function Mode from the mode line, because it's mostly
+  ;;       ;; invisible here anyway.
+  ;;       (assq-delete-all 'which-func-mode mode-line-misc-info))
 
 
   ;; imenu-list
@@ -489,6 +494,15 @@ before packages are loaded."
     (setq imenu-list-focus-after-activation t))
 
   (global-set-key (kbd "C-'") 'imenu-list-smart-toggle)
+
+  ;; multiple-cursors
+  (require 'multiple-cursors)
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+
+  ;; set .h header file open in c++ mode
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
   )
 
@@ -508,7 +522,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (imenu-list yasnippet-snippets yapfify which-key wgrep use-package smex smeargle pyvenv pytest pyenv-mode py-isort pippel pipenv pip-requirements pcre2el overseer omnisharp neotree nameless magit-svn magit-gitflow macrostep live-py-mode ivy-yasnippet ivy-xref ivy-hydra importmagic helm-make gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flx evil-mc evil-magit elisp-slime-nav dotenv-mode diminish cython-mode counsel company-statistics company-anaconda bind-map auto-yasnippet auto-compile ac-ispell))))
+    (vmd-mode smartparens mmm-mode markdown-toc markdown-mode gh-md emoji-cheat-sheet-plus company-emoji yasnippet-snippets yapfify which-key wgrep web-beautify use-package smex smeargle pyvenv pytest pyenv-mode py-isort prettier-js pippel pipenv pip-requirements pcre2el overseer omnisharp neotree nameless magit-svn magit-gitflow macrostep livid-mode live-py-mode json-navigator json-mode js2-refactor js-doc ivy-yasnippet ivy-xref ivy-hydra importmagic imenu-list helm-make gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flx evil-mc evil-magit elisp-slime-nav dotenv-mode diminish cython-mode counsel company-tern company-statistics company-anaconda bind-map auto-yasnippet auto-compile ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
