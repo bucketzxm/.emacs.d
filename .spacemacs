@@ -34,6 +34,8 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(markdown
+     markdown
+     yaml
      javascript
      python
      ;; ----------------------------------------------------------------
@@ -45,14 +47,13 @@ This function should only modify configuration layer settings."
      auto-completion
      ;; better-defaults
      emacs-lisp
-     ;; git
-     ;; markdown
      multiple-cursors
      neotree
      git
      csharp
      imenu-list
      json
+     cmake
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
