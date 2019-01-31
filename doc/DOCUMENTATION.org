@@ -670,7 +670,7 @@ By default a declared layer installs/configures all its associated packages. You
 may want to select only some of them or ignoring some of them. This is possible
 with the =:packages= keyword.
 
-For instance to ignore the =neotree= and =fancy-battery= packages from
+For instance to ignore the =treemacs= and =fancy-battery= packages from
 =spacemacs-ui-visual= layer:
 
 #+BEGIN_SRC emacs-lisp
@@ -678,10 +678,10 @@ For instance to ignore the =neotree= and =fancy-battery= packages from
     ;; List of configuration layers to load.
     (setq-default dotspacemacs-configuration-layers
       '(auto-completion
-        (spacemacs-ui-visual :packages (not neotree fancy-battery))))
+        (spacemacs-ui-visual :packages (not treemacs fancy-battery))))
 #+END_SRC
 
-The opposite would be to ignore all packages except =neotree= and
+The opposite would be to ignore all packages except =treemacs= and
 =fancy-battery=:
 
 #+BEGIN_SRC emacs-lisp
@@ -689,7 +689,7 @@ The opposite would be to ignore all packages except =neotree= and
     ;; List of configuration layers to load.
     (setq-default dotspacemacs-configuration-layers
       '(auto-completion
-        (spacemacs-ui-visual :packages neotree fancy-battery)))
+        (spacemacs-ui-visual :packages treemacs fancy-battery)))
 #+END_SRC
 
 *Note*: Ignoring a package from a layer is different than excluding a package.
@@ -992,7 +992,7 @@ Spacemacs ships with the following evil plugins:
 | [[https://github.com/juanjux/evil-search-highlight-persist][evil-search-highlight-persist]] | emulation of hlsearch behavior             |
 | [[https://github.com/timcharper/evil-surround][evil-surround]]                 | port of [[https://github.com/tpope/vim-surround][vim-surround]]                       |
 | [[https://github.com/bling/evil-visualstar][evil-visualstar]]               | search for current selection with ~*~      |
-| [[https://github.com/jaypei/emacs-neotree][NeoTree]]                       | mimic [[https://github.com/scrooloose/nerdtree][NERD Tree]]                            |
+| [[https://github.com/Alexander-Miller/treemacs][Treemacs]]                      | a file explorer like [[https://github.com/scrooloose/nerdtree][NERD Tree]]             |
 
 * Environment variables and PATH
 Environment variables are handled by the function =dotspacemacs/user-env= of
@@ -1012,7 +1012,7 @@ Some dynamic environment variables are ignored by Spacemacs when it first
 creates the =~/.spacemacs.env= file. These ignored variables are listed in
 the variable =spacemacs-ignored-environment-variables=.
 
-It is possible to for a new import of system and shell environment variables
+It is possible to force a new import of system and shell environment variables
 with ~SPC f e C-e~. Note that this action will overwrite =~/.spacemacs.env=.
 
 ** Managing environment variables by yourself
@@ -2135,20 +2135,19 @@ The ~SPC j~ prefix is for jumping, joining and splitting.
 Every window has a number displayed at the start of the mode-line and
 can be quickly accessed using =SPC number=.
 
-| Key binding | Description                                         |
-|-------------+-----------------------------------------------------|
-| ~SPC 1~     | go to window number 1                               |
-| ~SPC 2~     | go to window number 2                               |
-| ~SPC 3~     | go to window number 3                               |
-| ~SPC 4~     | go to window number 4                               |
-| ~SPC 5~     | go to window number 5                               |
-| ~SPC 6~     | go to window number 6                               |
-| ~SPC 7~     | go to window number 7                               |
-| ~SPC 8~     | go to window number 8                               |
-| ~SPC 9~     | go to window number 9                               |
-| ~SPC 0~     | go to window number 0 (or 10 if no window number 0) |
+| Key binding | Description           |
+|-------------+-----------------------|
+| ~SPC 1~     | go to window number 1 |
+| ~SPC 2~     | go to window number 2 |
+| ~SPC 3~     | go to window number 3 |
+| ~SPC 4~     | go to window number 4 |
+| ~SPC 5~     | go to window number 5 |
+| ~SPC 6~     | go to window number 6 |
+| ~SPC 7~     | go to window number 7 |
+| ~SPC 8~     | go to window number 8 |
+| ~SPC 9~     | go to window number 9 |
 
-Window number 0 is assigned to the sidebar, like NeoTree. If there is no window
+Window number 0 is a special case and selects sidebar windows, like treemacs. If there is no window
 number 0, =SPC 0= attempts to select window number 10.
 
 Windows manipulation commands (start with ~w~):
@@ -2160,8 +2159,9 @@ Windows manipulation commands (start with ~w~):
 | ~SPC w _~              | maximize window horizontally                                                |
 | ~SPC w \vert~          | maximize window vertically                                                  |
 | ~SPC w b~              | force the focus back to the minibuffer                                      |
-| ~SPC w c~              | maximize/minimize a window and center it                                    |
-| ~SPC w C~              | maximize/minimize a window and center it using [[https://github.com/abo-abo/ace-window][ace-window]]                   |
+| ~SPC w c c~            | toggle visual centering of the current buffer                               |
+| ~SPC w c C~            | toggle visual distraction free mode                                         |
+| ~SPC w c .~            | center buffer and enable centering transient state                          |
 | ~SPC w d~              | delete a window                                                             |
 | ~SPC u SPC w d~        | delete a window and its current buffer (does not delete the file)           |
 | ~SPC w D~              | delete another window using [[https://github.com/abo-abo/ace-window][ace-window]]                                      |
@@ -2338,13 +2338,19 @@ Buffer manipulation commands (start with ~b~):
 A convenient buffer manipulation transient state allows to quickly cycles through
 the opened buffer and kill them.
 
-| Key binding | Description                                                                       |
-|-------------+-----------------------------------------------------------------------------------|
-| ~SPC b .~   | initiate transient state                                                          |
-| ~K~         | kill current buffer                                                               |
-| ~n~         | go to next buffer (avoid buffers matching =spacemacs-useless-buffers-regexp=)     |
-| ~N~         | go to previous buffer (avoid buffers matching =spacemacs-useless-buffers-regexp=) |
-| ~z~         | recenter buffer in window                                                         |
+| Key binding            | Description                                                                                |
+|------------------------+--------------------------------------------------------------------------------------------|
+| ~SPC b .~              | initiate transient state                                                                   |
+| ~[1..9]~               | move current buffer to nth window                                                          |
+| ~[C-1..C-9]~           | switch focus to nth window                                                                 |
+| ~[M-1..M-9]~           | swap current buffer with nth window                                                        |
+| ~b~                    | list all buffers with helm/ivy (avoid buffers matching =spacemacs-useless-buffers-regexp=) |
+| ~d~                    | kill current buffer                                                                        |
+| ~C-d~                  | bury current buffer                                                                        |
+| ~n~ or ~<right>~       | go to next buffer (avoid buffers matching =spacemacs-useless-buffers-regexp=)              |
+| ~N~ or ~p~ or ~<left>~ | go to previous buffer (avoid buffers matching =spacemacs-useless-buffers-regexp=)          |
+| ~o~                    | switch focus to other window                                                               |
+| ~z~                    | recenter buffer in window                                                                  |
 
 Unlike vim, emacs creates many buffers that most people do not need to see. Some
 examples are the =*Messages*= and =*Compile-Log*= buffers. Spacemacs tries to
@@ -2376,7 +2382,7 @@ Files manipulation commands (start with ~f~):
 | ~SPC f s~   | save a file                                                                                            |
 | ~SPC f S~   | save all files                                                                                         |
 | ~SPC f r~   | open a recent file                                                                                     |
-| ~SPC f t~   | toggle file tree side bar using [[https://github.com/jaypei/emacs-neotree][NeoTree]]                                                                |
+| ~SPC f t~   | toggle file tree side bar using [[https://github.com/Alexander-Miller/treemacs][Treemacs]]                                                               |
 | ~SPC f v d~ | add a directory variable                                                                               |
 | ~SPC f v f~ | add a local variable to the current file                                                               |
 | ~SPC f v p~ | add a local variable to the first line of the current file                                             |
@@ -3296,7 +3302,7 @@ To search in a project see [[#searching-in-a-project][project searching]].
 | ~SPC p p~   | switch project                                                                           |
 | ~SPC p r~   | open a recent file                                                                       |
 | ~SPC p R~   | replace a string                                                                         |
-| ~SPC p t~   | open =NeoTree= in =projectile= root                                                      |
+| ~SPC p t~   | open =Treemacs= and add current =projectile= root to its list of projects                |
 | ~SPC p T~   | test project                                                                             |
 | ~SPC p v~   | open project root in =vc-dir= or =magit=                                                 |
 | ~SPC /~     | search in project with the best search tool available                                    |
