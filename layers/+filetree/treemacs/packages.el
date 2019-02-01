@@ -66,7 +66,7 @@
         (treemacs-follow-mode t))
       (when treemacs-use-filewatch-mode
         (treemacs-filewatch-mode t))
-      (when (memq treemacs-use-git-mode '(simple extended))
+      (when (memq treemacs-use-git-mode '(simple extended deferred))
         (treemacs-git-mode treemacs-use-git-mode))
       (add-to-list 'spacemacs-window-split-ignore-prefixes
                    treemacs--buffer-name-prefix))))
@@ -87,4 +87,8 @@
     (progn
       ;; window 0 is reserved for file trees
       (spacemacs/set-leader-keys "0" 'treemacs-select-window)
-      (define-key winum-keymap (kbd "M-0") 'treemacs-select-window))))
+      (define-key winum-keymap (kbd "M-0") 'treemacs-select-window)
+      (with-eval-after-load 'treemacs
+        (dolist (n (number-sequence 1 5))
+          (add-to-list 'winum-ignored-buffers
+                       (format "%sFramebuffer-%s*" treemacs--buffer-name-prefix n)))))))
