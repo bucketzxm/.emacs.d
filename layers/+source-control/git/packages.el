@@ -28,6 +28,7 @@
         magit-svn
         (orgit :requires org)
         smeargle
+        transient
         ))
 
 (defun git/pre-init-evil-magit ()
@@ -150,17 +151,16 @@
       (when (eq window-system 'w32)
         (setenv "GIT_ASKPASS" "git-gui--askpass"))
       ;; key bindings
-      (spacemacs/declare-prefix "gd" "diff")
       (spacemacs/declare-prefix "gf" "file")
       (spacemacs/set-leader-keys
         "gb"  'spacemacs/git-blame-micro-state
         "gc"  'magit-clone
         "gff" 'magit-find-file
         "gfl" 'magit-log-buffer-file
-        "gfd" 'magit-diff-buffer-file-popup
+        "gfd" 'magit-diff
         "gi"  'magit-init
         "gL"  'magit-list-repositories
-        "gm"  'magit-dispatch-popup
+        "gm"  'magit-dispatch
         "gs"  'magit-status
         "gS"  'magit-stage-file
         "gU"  'magit-unstage-file)
@@ -215,12 +215,12 @@ Press [_b_] again to blame further in the history, [_q_] to go up or quit."
 
 (defun git/init-magit-gitflow ()
   (use-package magit-gitflow
-    :commands turn-on-magit-gitflow
-    :init (progn
-            (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
-            (with-eval-after-load 'magit
-              (define-key magit-mode-map "%" 'magit-gitflow-popup)))
-    :config (spacemacs|diminish magit-gitflow-mode "Flow")))
+    :defer t
+    :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+    :config
+    (progn
+      (spacemacs|diminish magit-gitflow-mode "Flow")
+      (define-key magit-mode-map "%" 'magit-gitflow-popup))))
 
 (defun git/init-magit-svn ()
   (use-package magit-svn
@@ -229,7 +229,7 @@ Press [_b_] again to blame further in the history, [_q_] to go up or quit."
     :init (add-hook 'magit-mode-hook 'turn-on-magit-svn)
     :config (progn
               (spacemacs|diminish magit-svn-mode "SVN")
-              (define-key magit-mode-map "~" 'magit-svn-popup))))
+              (define-key magit-mode-map "~" 'magit-svn))))
 
 (defun git/init-orgit ()
   (use-package orgit
@@ -255,3 +255,15 @@ Press [_b_] again to blame further in the history, [_q_] to go up or quit."
         "gHc" 'smeargle-clear
         "gHh" 'smeargle-commits
         "gHt" 'smeargle))))
+
+(defun git/init-transient ()
+  (use-package transient
+    :defer t
+    :init
+    (setq
+     transient-levels-file
+     (expand-file-name "transient/levels.el" spacemacs-cache-directory)
+     transient-values-file
+     (expand-file-name "transient/values.el" spacemacs-cache-directory)
+     transient-history-file
+     (expand-file-name "transient/history.el" spacemacs-cache-directory))))

@@ -14,11 +14,14 @@
 ;; ---------------------------------------------------------------------------
 
 ;; We define prefix commands only for the sake of which-key
-(setq spacemacs/key-binding-prefixes '(("a"   "applications")
+(setq spacemacs/key-binding-prefixes '(("SPC" "M-x")
+                                       ("TAB" "last buffer")
+                                       ("!"   "shell cmd")
+                                       ("*"   "search project w/input")
+                                       ("/"   "search project")
+                                       ("?"   "show keybindings")
+                                       ("a"   "applications")
                                        ("A"   "other applications")
-                                       ("ai"  "irc")
-                                       ("as"  "shells")
-                                       ("ay"  "ipython notebook")
                                        ("b"   "buffers")
                                        ("bN"  "new empty buffer")
                                        ("c"   "compile/comments")
@@ -36,32 +39,40 @@
                                        ("hP"  "profiler")
                                        ("i"   "insertion")
                                        ("j"   "jump/join/split")
+                                       ("jj"  "avy timer")
+                                       ("jl"  "avy line")
+                                       ("js"  "split sexp")
+                                       ("jw"  "avy word")
                                        ("k"   "lisp")
                                        ("kd"  "delete")
                                        ("kD"  "delete-backward")
                                        ("k`"  "hybrid")
+                                       ("m"   "major mode commands")
                                        ("n"   "narrow/numbers")
                                        ("N"   "navigation")
                                        ("p"   "projects")
-                                       ("p$"  "projects/shell")
                                        ("q"   "quit")
                                        ("r"   "registers/rings/resume")
-                                       ("Re"  "elisp")
-                                       ("Rp"  "pcre")
                                        ("s"   "search/symbol")
                                        ("sa"  "ag")
                                        ("sg"  "grep")
                                        ("sk"  "ack")
+                                       ("sp"  "search project")
+                                       ("sP"  "search project w/input")
                                        ("sr"  "ripgrep")
                                        ("st"  "pt")
                                        ("sw"  "web")
                                        ("t"   "toggles")
                                        ("tC"  "colors")
                                        ("tE"  "editing-styles")
+                                       ("tEe" "emacs (holy-mode)")
+                                       ("tEh" "hybrid (hybrid-mode)")
                                        ("th"  "highlight")
                                        ("tm"  "modeline")
                                        ("T"   "UI toggles/themes")
                                        ("C-t" "other toggles")
+                                       ("u"   "universal arg")
+                                       ("v"   "expand region")
                                        ("w"   "windows")
                                        ("wc"  "centered")
                                        ("wp"  "popup")
@@ -71,7 +82,6 @@
                                        ("xg"  "google-translate")
                                        ("xj"  "justification")
                                        ("xl"  "lines")
-                                       ("xm"  "move")
                                        ("xt"  "transpose")
                                        ("xw"  "words")
                                        ("z"   "zoom")))
@@ -156,16 +166,19 @@
 ;; Cycling settings -----------------------------------------------------------
 (spacemacs|define-transient-state theme
   :title "Themes Transient State"
-  :doc "\n[_n_/_<right>_] next  [_p_/_<left>_] previous  [_t_/_<up>_] helm-themes"
+  :doc "\n[_n_/_<right>_] next  [_N_/_p_/_<left>_] previous  [_t_/_<up>_] helm-themes"
   :bindings
   ("n" spacemacs/cycle-spacemacs-theme)
-  ("p" (spacemacs/cycle-spacemacs-theme 'backward))
+  ("N" spacemacs/cycle-spacemacs-theme-backward)
+  ("p" spacemacs/cycle-spacemacs-theme-backward)
   ("t" helm-themes)
   ("<up>" helm-themes)
   ("<right>" spacemacs/cycle-spacemacs-theme)
-  ("<left>" (spacemacs/cycle-spacemacs-theme 'backward)))
+  ("<left>" spacemacs/cycle-spacemacs-theme-backward))
 (spacemacs/set-leader-keys "Tn"
   'spacemacs/theme-transient-state/spacemacs/cycle-spacemacs-theme)
+(spacemacs/set-leader-keys "TN"
+  'spacemacs/theme-transient-state/spacemacs/cycle-spacemacs-theme-backward)
 ;; errors ---------------------------------------------------------------------
 (spacemacs/set-leader-keys
   "en" 'spacemacs/next-error

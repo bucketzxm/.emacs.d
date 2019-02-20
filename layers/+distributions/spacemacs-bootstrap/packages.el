@@ -304,6 +304,17 @@
 (defun spacemacs-bootstrap/init-which-key ()
   (require 'which-key)
 
+  (setq which-key-special-keys nil
+        which-key-use-C-h-for-paging t
+        which-key-prevent-C-h-from-cycling t
+        which-key-echo-keystrokes 0.02
+        which-key-max-description-length 32
+        which-key-allow-multiple-replacements t
+        which-key-sort-order 'which-key-key-order-alpha
+        which-key-idle-delay dotspacemacs-which-key-delay
+        which-key-idle-secondary-delay 0.01
+        which-key-allow-evil-operators t)
+
   (spacemacs|add-toggle which-key
     :mode which-key-mode
     :documentation
@@ -322,30 +333,17 @@
          ;; being higher in this list means the replacement is applied later
          '(
            ("spacemacs/\\(.+\\)" . "\\1")
+           ("spacemacs-\\(.+\\)" . "\\1")
            ("spacemacs/toggle-\\(.+\\)" . "\\1")
-           ("spacemacs/alternate-buffer" . "last buffer")
+           ("\\(.+\\)-transient-state/\\(.+\\)" . "\\2")
+           ("\\(.+\\)-transient-state/body" . "\\1-transient-state")
+           ("spacemacs-layouts/non-restricted-buffer-list-\\(helm\\|ivy\\)" . "global-list-buffers")
            ("spacemacs/toggle-mode-line-\\(.+\\)" . "\\1")
-           ("lazy-helm/\\(.+\\)" . "\\1")
-           ("avy-goto-word-or-subword-1" . "avy word")
-           ("shell-command" . "shell cmd")
-           ("spacemacs/default-pop-shell" . "open shell")
-           ("spacemacs/helm-project-smart-do-search-region-or-symbol" . "smart search w/input")
-           ("spacemacs/helm-project-smart-do-search" . "smart search")
-           ("spacemacs/search-project-auto-region-or-symbol" . "search project w/input")
-           ("spacemacs/search-project-auto" . "search project")
-           ("helm-descbinds" . "show keybindings")
-           ("sp-split-sexp" . "split sexp")
-           ("avy-goto-line" . "avy line")
-           ("universal-argument" . "universal arg")
-           ("er/expand-region" . "expand region")
-           ("helm-apropos" . "apropos")
-           ("spacemacs/toggle-hybrid-mode" . "hybrid (hybrid-mode)")
-           ("spacemacs/toggle-holy-mode" . "emacs (holy-mode)")
            ("evil-lisp-state-\\(.+\\)" . "\\1")
-           ("spacemacs/\\(.+\\)-transient-state/\\(.+\\)" . "\\2")
-           ("spacemacs/\\(.+\\)-transient-state/body" . "\\1-transient-state")
            ("helm-mini\\|ivy-switch-buffer" . "list-buffers")
-           ("spacemacs-layouts/non-restricted-buffer-list-\\(helm\\|ivy\\)" . "global-list-buffers"))))
+           ("lazy-helm/\\(.+\\)" . "\\1")
+           ("lazy-helm/spacemacs/\\(.+\\)" . "\\1")
+           )))
     (dolist (nd new-descriptions)
       ;; ensure the target matches the whole string
       (push (cons (cons nil (concat "\\`" (car nd) "\\'")) (cons nil (cdr nd)))
@@ -464,18 +462,9 @@
   (push '(("\\(.*\\)C-c C-d C-d" . "elisp-slime-nav-describe-elisp-thing-at-point") . t)
           which-key-replacement-alist)
 
-  (dolist (leader-key `(,dotspacemacs-leader-key ,dotspacemacs-emacs-leader-key))
-    (which-key-add-key-based-replacements
-      (concat leader-key " m")    "major mode commands"
-      (concat leader-key " " dotspacemacs-emacs-command-key) "M-x"))
-
   (which-key-add-key-based-replacements
     dotspacemacs-leader-key '("root" . "Spacemacs root")
-    dotspacemacs-emacs-leader-key '("root" . "Spacemacs root")
-    (concat dotspacemacs-leader-key " m")
-    '("major-mode-cmd" . "Major mode commands")
-    (concat dotspacemacs-emacs-leader-key " m")
-    '("major-mode-cmd" . "Major mode commands"))
+    dotspacemacs-emacs-leader-key '("root" . "Spacemacs root"))
 
   ;; disable special key handling for spacemacs, since it can be
   ;; disorienting if you don't understand it
@@ -483,16 +472,6 @@
     (`right (which-key-setup-side-window-right))
     (`bottom (which-key-setup-side-window-bottom))
     (`right-then-bottom (which-key-setup-side-window-right-bottom)))
-
-  (setq which-key-special-keys nil
-        which-key-use-C-h-for-paging t
-        which-key-prevent-C-h-from-cycling t
-        which-key-echo-keystrokes 0.02
-        which-key-max-description-length 32
-        which-key-sort-order 'which-key-key-order-alpha
-        which-key-idle-delay dotspacemacs-which-key-delay
-        which-key-idle-secondary-delay 0.01
-        which-key-allow-evil-operators t)
 
   (which-key-mode)
   (spacemacs|diminish which-key-mode " Ⓚ" " K"))
