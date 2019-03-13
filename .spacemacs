@@ -73,6 +73,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages
    '(
+     window-numbering winner
      )
 
    ;; A list of packages that cannot be updated.
@@ -484,13 +485,14 @@ before packages are loaded."
   (global-set-key [C-s-up] 'windmove-up)
   (global-set-key [C-s-down] 'windmove-down)
 
-  (require 'window-numbering)
+  ;; winner mode
+  (winner-mode 1)
+  ;; window-numbering-mode
   (window-numbering-mode 1)
 
-  (winner-mode 1)
-  ;; copied from http://puntoblogspot.blogspot.com/2011/05/undo-layouts-in-emacs.html
-  (global-set-key (kbd "C-x 4 u") 'winner-undo)
-  (global-set-key (kbd "C-x 4 r") 'winner-redo)
+  ;; projectile
+  (global-set-key (kbd "M-m p p") 'projectile-switch-project)
+
   ;; (global-set-key [M-left] 'tabbar-backward-tab)
   ;; (global-set-key [M-right] 'tabbar-forward-tab)
   ;; (add-hook 'text-mode-hook 'tabbar-mode)
@@ -526,8 +528,6 @@ before packages are loaded."
   ;; set .h header file open in c++ mode
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
-  ;; projectile
-  (global-set-key (kbd "M-m p p") 'projectile-switch-project)
 
   ;; cquery
   (require 'cquery)
