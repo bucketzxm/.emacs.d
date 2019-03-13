@@ -54,6 +54,7 @@ This function should only modify configuration layer settings."
      imenu-list
      json
      cmake
+     lsp
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -317,7 +318,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup nil
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
@@ -467,24 +468,44 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
+  (when (>= emacs-major-version 24)
+    (require 'package)
+    (package-initialize)
+    (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+    )
+
   ;; ask .h file to use c++ mode
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
-  (global-set-key [M-left] 'tabbar-backward-tab)
-  (global-set-key [M-right] 'tabbar-forward-tab)
-  (add-hook 'text-mode-hook 'tabbar-mode)
+  ;; jump between windows
+  (global-set-key [C-s-left] 'windmove-left)
+  (global-set-key [C-s-right] 'windmove-right)
+  (global-set-key [C-s-up] 'windmove-up)
+  (global-set-key [C-s-down] 'windmove-down)
 
-  ;; ;; use which-function-mode to show which function/class i am inside.
-  ;; (which-function-mode)
-  ;; ;; when it cannot determinted, show n/a instead of ???
-  ;; (setq which-func-unknown "n/a")
-  ;; ;; show the position on top
-  ;; (setq-default header-line-format
-  ;;               '((which-func-mode ("" which-func-format " "))))
-  ;; (setq mode-line-misc-info
-  ;;       ;; We remove Which Function Mode from the mode line, because it's mostly
-  ;;       ;; invisible here anyway.
-  ;;       (assq-delete-all 'which-func-mode mode-line-misc-info))
+  (require 'window-numbering)
+  (window-numbering-mode 1)
+
+  (winner-mode 1)
+  ;; copied from http://puntoblogspot.blogspot.com/2011/05/undo-layouts-in-emacs.html
+  (global-set-key (kbd "C-x 4 u") 'winner-undo)
+  (global-set-key (kbd "C-x 4 r") 'winner-redo)
+  ;; (global-set-key [M-left] 'tabbar-backward-tab)
+  ;; (global-set-key [M-right] 'tabbar-forward-tab)
+  ;; (add-hook 'text-mode-hook 'tabbar-mode)
+
+  ;; use which-function-mode to show which function/class i am inside.
+  (which-function-mode)
+  ;; when it cannot determinted, show n/a instead of ???
+  (setq which-func-unknown "n/a")
+  ;; show the position on top
+  (setq-default header-line-format
+                '((which-func-mode ("" which-func-format " "))))
+  (setq mode-line-misc-info
+        ;; We remove Which Function Mode from the mode line, because it's mostly
+        ;; invisible here anyway.
+        (assq-delete-all 'which-func-mode mode-line-misc-info))
 
 
   ;; imenu-list
@@ -504,6 +525,14 @@ before packages are loaded."
 
   ;; set .h header file open in c++ mode
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+  ;; projectile
+  (global-set-key (kbd "M-m p p") 'projectile-switch-project)
+
+  ;; cquery
+  (require 'cquery)
+  (setq cquery-executable "~/.oh-my-unix/3rdparty/cquery/build/cquery")
+  (setq cquery-extra-init-params '(:index (:comments 2) :cacheFormat "msgpack"))
 
   )
 
