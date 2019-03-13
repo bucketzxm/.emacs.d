@@ -528,7 +528,6 @@ before packages are loaded."
   ;; set .h header file open in c++ mode
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
-
   ;; cquery
   (require 'cquery)
   (setq cquery-executable "~/.oh-my-unix/3rdparty/cquery/build/cquery")
